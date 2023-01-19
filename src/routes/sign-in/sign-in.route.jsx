@@ -1,8 +1,13 @@
 import React from 'react';
+import { signInWithGooglePopup } from '../../utils/firebase/firebase.utils';
 
 const SignInRoute = () => {
   return (
-    <div>I am sign in route</div>
+    <>
+      <button onClick={signInWithGooglePopup}>
+        Google Sign In
+      </button>
+    </>
   );
 }
 
