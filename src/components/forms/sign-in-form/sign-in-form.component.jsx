@@ -52,46 +52,52 @@ const SignInForm = () => {
       <h1>Sign in with your email & password</h1>
       <form onSubmit={handleSubmit}>
         <FormInput
-          required
           label="Name"
           htmlFor="displayName"
-          inputId="displayName"
-          type="text"
-          name="displayName"
-          placeholder="Biggie Smalls"
-          value={displayName}
-          onChange={handleChange}
+          inputOptions={{
+            required: true,
+            inputId: "displayName",
+            type: "text",
+            name: "displayName",
+            value: displayName,
+            onChange: handleChange,
+          }}
         />
         <FormInput
-          required
           label="Email"
           htmlFor="email"
-          inputId="email"
-          type="email"
-          name="email"
-          placeholder=""
-          value={email}
-          onChange={handleChange}
+          inputOptions={{
+            required: true,
+            inputId: "email",
+            type: "email",
+            name: "email",
+            value: email,
+            onChange: handleChange,
+          }}
         />
         <FormInput
-          required
           label="Password"
           htmlFor="password"
-          inputId="password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
+          inputOptions={{
+            required: true,
+            inputId: "password",
+            type: "password",
+            name: "password",
+            value: password,
+            onChange: handleChange,
+          }}
         />
         <FormInput
-          required
           label="Confirm Password"
           htmlFor="confirmed-password"
-          inputId="confirmed-password"
-          type="password"
-          name="confirmedPassword"
-          value={confirmedPassword}
-          onChange={handleChange}
+          inputOptions={{
+            required: true,
+            inputId: "confirmed-password",
+            type: "password",
+            name: "confirmedPassword",
+            value: confirmedPassword,
+            onChange: handleChange,
+          }}
         />
         <button type="sumbit">Sign Up</button>
       </form>
