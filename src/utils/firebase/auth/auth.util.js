@@ -1,8 +1,7 @@
-import { firebaseApp } from '../firebase.utils';
+import { firebaseApp } from '../firebase.util';
 
 import {
   getAuth,
-  signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
 } from 'firebase/auth';
@@ -12,7 +11,7 @@ googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
-const auth = getAuth(firebaseApp);
+export const auth = getAuth(firebaseApp);
 
 export async function signInWithGooglePopup() {
   try {
