@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createAuthUserWithEmailAndPassword } from '../../../utils/firebase/auth/auth.util';
 import { createUserDocFromAuth } from '../../../utils/firebase/firestore/firestore.util';
+import FormInput from '../../inputs/form-input/form-input.component';
 
 const defaultFormFields = {
   displayName: '',
@@ -50,48 +51,48 @@ const SignInForm = () => {
     <section>
       <h1>Sign in with your email & password</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="displayName">Name</label>
-        <input
-          id="displayName"
+        <FormInput
           required
+          label="Name"
+          htmlFor="displayName"
+          inputId="displayName"
           type="text"
           name="displayName"
           placeholder="Biggie Smalls"
           value={displayName}
           onChange={handleChange}
-          />
-        
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
+        />
+        <FormInput
           required
+          label="Email"
+          htmlFor="email"
+          inputId="email"
           type="email"
           name="email"
-          placeholder="mynikesarecool@gmail.com"
+          placeholder=""
           value={email}
           onChange={handleChange}
-          />
-
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
+        />
+        <FormInput
           required
+          label="Password"
+          htmlFor="password"
+          inputId="password"
           type="password"
           name="password"
           value={password}
           onChange={handleChange}
-          />
-
-        <label htmlFor="password-confirmed">Confirm Password</label>
-        <input
-          id="password-confirmed"
+        />
+        <FormInput
           required
+          label="Confirm Password"
+          htmlFor="confirmed-password"
+          inputId="confirmed-password"
           type="password"
           name="confirmedPassword"
           value={confirmedPassword}
           onChange={handleChange}
-          />
-
+        />
         <button type="sumbit">Sign Up</button>
       </form>
     </section>
