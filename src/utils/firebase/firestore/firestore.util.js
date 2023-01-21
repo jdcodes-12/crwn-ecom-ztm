@@ -7,14 +7,13 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
-const db = getFirestore(firebaseApp);
+const firestore = getFirestore(firebaseApp);
 
 export async function createUserDocFromAuth(userAuth) {
-  const userDocRef = doc(db, 'users', userAuth.uid);
-  
+  const userDocRef = doc(firestore, 'users', userAuth.uid);
+
   try {
     const userSnapshot = await getDoc(userDocRef);
-
     if (!userSnapshot.exists()) {
       const newUserData = createUserData(userAuth)
       try {
@@ -23,7 +22,6 @@ export async function createUserDocFromAuth(userAuth) {
         console.log(`setDoc() in CreateUserDocFromAuth(): ${error}`);
       }
     }
-
   } catch(error) {
     console.log(`createUserDocFromAuth(): ${error}`);
   }
@@ -31,12 +29,13 @@ export async function createUserDocFromAuth(userAuth) {
   return userDocRef;
 }
 
-function createUserData(userAuth) {
+function createUserData(userAuth, additionalInfo={}) {
   const { displayName, email } = userAuth;
   const createdAt = new Date();
   return {
     displayName,
     email,
     createdAt,
+    ...additionalInfo,
   };
 }
