@@ -12,6 +12,7 @@ const defaultFormFields = {
   confirmedPassword: '',
 };
 
+// TODO: Fix displayName not populating on SignUpForm
 const SignUpForm = () => {
 
   const [formFields, setFormFields] = useState(defaultFormFields);
@@ -37,9 +38,9 @@ const SignUpForm = () => {
     } catch(error) {
       if (isEmailTaken(error.code)) {
         alert('Email already in use.');
-        console.log(`handleSubmit(): ${error}`);
+        console.log(error);
       } else {
-        console.log(`handleSubmit(): ${error}`);
+        console.log(`Uncaught error: ${error}`);
       }
     }
   }
@@ -102,7 +103,7 @@ const SignUpForm = () => {
             onChange: handleChange,
           }}
         />
-        <Button buttonType='inverted' type='submit'>
+        <Button type='submit'>
           Sign Up
         </Button>
       </form>
