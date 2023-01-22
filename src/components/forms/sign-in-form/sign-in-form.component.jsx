@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../../contexts/user.context';
 import { createUserDocFromAuth } from '../../../utils/firebase/firestore/firestore.util';
+
 import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from '../../../utils/firebase/auth/auth.util';
+
 import './sign-in-form.styles.scss';
 import Button from '../../buttons/button.component';
 import FormInput from '../../inputs/form-input/form-input.component';
@@ -13,7 +16,7 @@ const ERROR_TYPES = {
   'userNotFound': 'auth/user-not-found',
 };
 
-// TODO : Handle errors for SignInForm
+// TODO: Handle errors for SignInForm
 const renderError = (errorCode) => {
   switch(errorCode) {
     case ERROR_TYPES['userNotFound']: 
@@ -39,6 +42,8 @@ const defaultFormFields = {
 
 const SignInForm = () => {
 
+  const { setCurrentUser } = useContext(UserContext);
+
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
@@ -48,7 +53,7 @@ const SignInForm = () => {
     try {
       const { user } = await signInWithGooglePopup()
       await createUserDocFromAuth(user);
-      console.log(user);
+      setCurrentUser(user);
     } catch(error) {
       renderError(error);
     }
@@ -58,7 +63,7 @@ const SignInForm = () => {
     event.preventDefault();
     try {
       const { user } = await signInAuthUserWithEmailAndPassword(email, password);
-      console.log(user);
+      setCurrentUser(user);
       resetFormFields();
     } catch(error) {
       renderError(error);

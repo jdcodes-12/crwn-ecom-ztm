@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../../contexts/user.context';
 import { createAuthUserWithEmailAndPassword } from '../../../utils/firebase/auth/auth.util';
 import { createUserDocFromAuth } from '../../../utils/firebase/firestore/firestore.util';
 import './sign-up-form.styles.scss';
@@ -14,6 +15,8 @@ const defaultFormFields = {
 
 // TODO: Fix displayName not populating on SignUpForm
 const SignUpForm = () => {
+
+  const { setCurrentUser } = useContext(UserContext);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmedPassword } = formFields;
@@ -32,7 +35,8 @@ const SignUpForm = () => {
     try {
       const { user } = await createAuthUserWithEmailAndPassword(email, password);
       await createUserDocFromAuth(user, { displayName });
-      alert('Created. Welcome to Crwn.');
+      alert('Welcome aboard. Time to shop like royalty.');
+      setCurrentUser(user);
       resetFormFields();
       
     } catch(error) {
