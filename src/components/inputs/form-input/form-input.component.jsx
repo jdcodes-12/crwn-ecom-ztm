@@ -1,7 +1,7 @@
 import React from 'react';
 import './form-input.styles.scss';
 
-const FormInput = ({ label, htmlFor, inputOptions}) => {
+const FormInput = ({ label, htmlFor, inputOptions }) => {
   return (
     <div className="group">
       <input className="form-input" {...inputOptions} />
