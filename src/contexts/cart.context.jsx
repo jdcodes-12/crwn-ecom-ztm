@@ -22,6 +22,10 @@ export const updateCart = (cartItems, product, action='increment') => {
           item
       );
     } 
+  } 
+  
+  else if (existingItem && action === 'clear') {
+    return cartItems.filter(item => item.id !== product.id);
   }
 
   return [...cartItems, {...product, quantity: 1}];
@@ -29,17 +33,21 @@ export const updateCart = (cartItems, product, action='increment') => {
 
 export const CartContext = createContext({
   isOpen: false,
-  setIsOpen: () => {},
   cartItems: [],
+  cartCount: 0,
+  cartTotal: 0,
+  setIsOpen: () => {},
   addProductToCart: () => {},
   decrementProductQuantity: () => {},
-  cartCount: 0,
+  clearCartItem: () => {},
+  calculateTotal: () => {}
 });
 
 export const CartProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
 
   const addProductToCart = (product) => 
     setCartItems(updateCart(cartItems, product));
@@ -47,18 +55,29 @@ export const CartProvider = ({ children }) => {
   const decrementProductQuantity = (product) => 
     setCartItems(updateCart(cartItems, product, 'decrement'));
 
+  const clearCartItem = (product) => 
+    setCartItems(updateCart(cartItems, product, 'clear'));
+
+  
   useEffect(() => {
     const updatedCartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
     setCartCount(updatedCartCount);
   }, [cartItems]);
 
+  useEffect(() => {
+    const updatedCartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+    setCartTotal(updatedCartTotal);
+  }, [cartItems]);
+
   const value = {
     isOpen,
-    setIsOpen,
     cartItems,
+    cartCount,
+    cartTotal,
+    setIsOpen,
     addProductToCart,
     decrementProductQuantity,
-    cartCount,
+    clearCartItem,
   };
 
   return (
