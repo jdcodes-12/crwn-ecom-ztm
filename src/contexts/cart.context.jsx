@@ -1,15 +1,29 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-export const updateCart = (cartItems, product) => {
+export const updateCart = (cartItems, product, action='increment') => {
   const existingItem = cartItems.find(item => item.id === product.id);
-  console.log(existingItem);
-  if (existingItem) {
+
+  if (existingItem && action === 'increment') {
     return cartItems.map(item => 
       item.id === product.id ? 
         { ...item, quantity: item.quantity + 1 } :
         item
     );
   }
+
+  else if (existingItem && action === 'decrement') {
+    if (existingItem.quantity === 1) {
+      return cartItems.filter(item => item.id !== product.id)
+
+    } else {
+      return cartItems.map(item =>
+        item.id === product.id ?
+          { ...item, quantity: item.quantity - 1 } :
+          item
+      );
+    } 
+  }
+
   return [...cartItems, {...product, quantity: 1}];
 }
 
@@ -18,6 +32,7 @@ export const CartContext = createContext({
   setIsOpen: () => {},
   cartItems: [],
   addProductToCart: () => {},
+  decrementProductQuantity: () => {},
   cartCount: 0,
 });
 
@@ -29,6 +44,8 @@ export const CartProvider = ({ children }) => {
   const addProductToCart = (product) => 
     setCartItems(updateCart(cartItems, product));
   
+  const decrementProductQuantity = (product) => 
+    setCartItems(updateCart(cartItems, product, 'decrement'));
 
   useEffect(() => {
     const updatedCartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -40,6 +57,7 @@ export const CartProvider = ({ children }) => {
     setIsOpen,
     cartItems,
     addProductToCart,
+    decrementProductQuantity,
     cartCount,
   };
 
@@ -47,5 +65,5 @@ export const CartProvider = ({ children }) => {
     <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
-  ) 
+  );
 }
