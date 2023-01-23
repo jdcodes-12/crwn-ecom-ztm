@@ -21,6 +21,7 @@ const Navbar = () => {
         </Link>
         <div className="nav-links-container">
           <Link className="nav-link" to="/shop">SHOP</Link>
+          <Link className="nav-link" to="/checkout">CHECKOUT</Link>
           {
             currentUser ?               
               <span className="nav-link" onClick={signOutUser}>SIGN OUT</span> :
