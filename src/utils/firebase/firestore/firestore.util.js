@@ -5,8 +5,10 @@ import {
   doc,
   getDoc,
   setDoc,
+  writeBatch,
   collection,
-  writeBatch
+  query,
+  getDocs,
 } from 'firebase/firestore';
 
 const firestore = getFirestore(firebaseApp);
@@ -22,6 +24,24 @@ export async function addCollectionAndDocuments(collectionKey, objectsToAdd) {
 
   await batch.commit();
   console.log('Done writing');
+}
+
+export async function getCollectionAndDocuments(collectionKey) {
+  const collectionRef = collection(firestore, collectionKey);
+  const queryToRunOnDocs = query(collectionRef);
+ 
+  try {
+    const querySnapshot = await getDocs(queryToRunOnDocs);
+    const categoriesMap = querySnapshot.docs.reduce((accumulator, docSnapshot) => {
+      const { title, items } = docSnapshot.data();
+      accumulator[title.toLowerCase()] = items;
+      return accumulator;
+    }, {});
+    return categoriesMap;
+
+  } catch(error) {
+    console.log(error);
+  }  
 }
 
 export async function createUserDocFromAuth(userAuth) {
