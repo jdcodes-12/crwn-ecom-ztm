@@ -9,7 +9,7 @@ const DirectoryItem = ({ category }) => {
   const { id, title, imageUrl } = category;
 
   return (
-    <DirectoryItemContainer as='article'>
+    <DirectoryItemContainer as='article' key={id}>
       <BackgroundImageContainer imageUrl={imageUrl}/>
       <Body>
         <h2>{title}</h2>
