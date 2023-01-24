@@ -1,20 +1,27 @@
 import React from 'react';
-import './button.styles.scss';
+import {
+  BaseButton,
+  GoogleButton,
+  InvertedButton,
+} from './button.styles';
 
-const BUTTON_TYPE = {
+export const BUTTON_TYPE = {
+  base: 'base',
   google: 'google-sign-in',
   inverted: 'inverted',
 };
 
+const renderButton = (buttonType = BUTTON_TYPE.base) => (
+  {
+    [BUTTON_TYPE.base]: BaseButton,
+    [BUTTON_TYPE.google]: GoogleButton,
+    [BUTTON_TYPE.inverted]: InvertedButton,
+  }[buttonType]
+);
+
 const Button = ({ children, buttonType, ...buttonProps}) => {
-  return (
-    <button 
-      className={`button-container ${BUTTON_TYPE[buttonType]}`}
-      {...buttonProps}
-    >
-      {children}
-    </button>
-  );
+  const RenderedButton = renderButton(buttonType);
+  return <RenderedButton {...buttonProps}>{children}</RenderedButton>
 }
 
 export default Button;
