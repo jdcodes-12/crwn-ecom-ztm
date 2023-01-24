@@ -23,7 +23,6 @@ export async function addCollectionAndDocuments(collectionKey, objectsToAdd) {
   });
 
   await batch.commit();
-  console.log('Done writing');
 }
 
 export async function getCollectionAndDocuments(collectionKey) {
