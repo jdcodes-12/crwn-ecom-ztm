@@ -6,7 +6,12 @@ import { ReactComponent as Logo } from '../../../assets/logos/crown.svg';
 import { signOutUser } from '../../../utils/firebase/auth/auth.util';
 import CartIcon from '../../cart/cart-icon/cart-icon.component';
 import CartDropdown from '../../cart/cart-dropdown/cart-dropdown.component';
-import './navbar.styles.scss';
+import {
+  NavbarContainer,
+  LogoContainer,
+  NavLinks,
+  NavLink,
+} from './navbar.styles';
 
 
 const Navbar = () => {
@@ -15,22 +20,22 @@ const Navbar = () => {
   
   return (
     <>
-      <nav className="navigation">
-        <Link className="logo-container" to="/">
+      <NavbarContainer className="navigation">
+        <LogoContainer className="logo-container" to="/">
           <Logo className="logo"/>
-        </Link>
-        <div className="nav-links-container">
-          <Link className="nav-link" to="/shop">SHOP</Link>
-          <Link className="nav-link" to="/checkout">CHECKOUT</Link>
+        </LogoContainer>
+        <NavLinks className="nav-links-container">
+          <NavLink className="nav-link" to="/shop">SHOP</NavLink>
+          <NavLink className="nav-link" to="/checkout">CHECKOUT</NavLink>
           {
             currentUser ?               
-              <span className="nav-link" onClick={signOutUser}>SIGN OUT</span> :
-              <Link className="nav-link" to="/auth">SIGN IN</Link>
+              <NavLink as='span' className="nav-link" onClick={signOutUser}>SIGN OUT</NavLink> :
+              <NavLink className="nav-link" to="/auth">SIGN IN</NavLink>
           }
           <CartIcon />
-        </div>
+        </NavLinks>
         { isOpen && <CartDropdown />}
-      </nav>
+      </NavbarContainer>
       <Outlet />
     </>
   );
