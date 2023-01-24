@@ -4,7 +4,7 @@ import { selectCategoriesMap } from '../../../store/categories/categories.select
 import CategoryPreview from '../category-preview/category-preview.component';
 
 const CategoriesPreview = () => {
-  const { categoriesMap } = useSelector(selectCategoriesMap);
+  const categoriesMap = useSelector(selectCategoriesMap);
   
   return (
     <>

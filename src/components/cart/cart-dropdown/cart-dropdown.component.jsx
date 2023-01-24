@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
-import { CartContext } from '../../../contexts/cart.context';
 import { useNavigate } from 'react-router-dom';
+
+import { CartContext } from '../../../contexts/cart.context';
+
 import Button from '../../buttons/button.component';
 import CartItem from '../cart-item/cart-item.component';
 import {
@@ -14,6 +16,7 @@ const CartDropdown = () => {
   const navigate = useNavigate();
 
   const goToCheckout = () => navigate('/checkout');
+
   return (
     <CartDropdownContainer>
       <CartItems>
@@ -26,7 +29,7 @@ const CartDropdown = () => {
               <EmptyMessage>Your cart is empty.</EmptyMessage>
         }
       </CartItems>
-      <Button onClick={goToCheckout}>Checkout</Button>
+      <Button onClick={goToCheckout}>CHECKOUT</Button>
     </CartDropdownContainer>
   );
 }

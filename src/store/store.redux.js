@@ -1,7 +1,7 @@
 // TODO: Migrate to Redux ToolKit
 
 import { rootReducer } from './root-reducer.redux';
-import { logger } from 'redux-logger';
+import logger from 'redux-logger';
 import { 
   compose, 
   legacy_createStore as createStore, 

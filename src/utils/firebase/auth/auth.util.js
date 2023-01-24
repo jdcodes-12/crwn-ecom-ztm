@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signOut,
+  onAuthStateChanged,
 } from 'firebase/auth';
 
 const googleProvider = new GoogleAuthProvider();
@@ -50,4 +51,8 @@ export async function signOutUser() {
   } catch(error) {
     console.log(error);
   }
+}
+
+export function onAuthStateChangedListener(nextCallback) {
+  return onAuthStateChanged(auth, nextCallback);
 }

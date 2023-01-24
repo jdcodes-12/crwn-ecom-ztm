@@ -1,4 +1,5 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useState, useReducer } from 'react';
+import { createAction } from '../utils/reducer/reducer.utils';
 
 export const CartContext = createContext({
   isOpen: false,
@@ -9,16 +10,21 @@ export const CartContext = createContext({
   addProductToCart: () => {},
   decrementProductQuantity: () => {},
   clearCartItem: () => {},
-  calculateTotal: () => {}
 });
-
 
 const CART_ACTION_TYPES = {
   TOGGLE_OPEN: 'TOGGLE_OPEN',
   SET_CART_ITEMS: 'SET_CART_ITEMS',
 };
 
-const cartReducer = (state, action) => {
+const CART_INITIAL_STATE = {
+  cartCount: 0,
+  cartTotal: 0,
+  cartItems: [],
+  isOpen: false,
+};
+
+const cartReducer = (state = CART_INITIAL_STATE, action) => {
   const { type, payload } = action;
   
   switch(type) {
@@ -35,20 +41,15 @@ const cartReducer = (state, action) => {
       };
 
     default: 
-      throw new Error(`Unhandled action type ${type} in cartReducer`);
+      return state;
   }
 };
 
-const CART_INITIAL_STATE = {
-  cartCount: 0,
-  cartTotal: 0,
-  cartItems: [],
-  isOpen: false,
-};
-
 export const CartProvider = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const [state, dispatch] = useReducer(cartReducer, CART_INITIAL_STATE);
-  const { isOpen, cartItems, cartCount, cartTotal } = state;
+  const { cartItems, cartCount, cartTotal } = state;
 
   const updateCartItemsReducer = (newCartItems) => {
     const newCartCount = newCartItems.reduce((total, item) => total + item.quantity, 0);
@@ -78,11 +79,6 @@ export const CartProvider = ({ children }) => {
     const newCartItems = updateCart(cartItems, product, 'clear');
     updateCartItemsReducer(newCartItems);
   }
-
-  const setIsOpen = (value) => dispatch({
-    type: CART_ACTION_TYPES.TOGGLE_OPEN,
-    payload: value,
-  })
 
   const value = {
     isOpen,
