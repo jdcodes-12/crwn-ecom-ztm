@@ -108,7 +108,7 @@ const SignUpForm = () => {
           Sign Up
         </Button>
       </form>
-    </SignUpContainer as="section">
+    </SignUpContainer>
   );
 }
 
