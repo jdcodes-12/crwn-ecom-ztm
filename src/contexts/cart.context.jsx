@@ -14,10 +14,8 @@ export const CartContext = createContext({
 
 
 const CART_ACTION_TYPES = {
-  TOGGLE_OPEN: '',
+  TOGGLE_OPEN: 'TOGGLE_OPEN',
   SET_CART_ITEMS: 'SET_CART_ITEMS',
-  GET_CART_ITEMS: '',
-  GET_CART_COUNT: '',
 };
 
 const cartReducer = (state, action) => {
@@ -28,7 +26,14 @@ const cartReducer = (state, action) => {
       return {
         ...state,
         ...payload,
-      }
+      };
+
+    case CART_ACTION_TYPES.TOGGLE_OPEN:
+      return {
+        ...state,
+        isOpen: payload,
+      };
+
     default: 
       throw new Error(`Unhandled action type ${type} in cartReducer`);
   }
@@ -38,7 +43,7 @@ const CART_INITIAL_STATE = {
   cartCount: 0,
   cartTotal: 0,
   cartItems: [],
-  isOpen: true,
+  isOpen: false,
 };
 
 export const CartProvider = ({ children }) => {
@@ -58,7 +63,7 @@ export const CartProvider = ({ children }) => {
       }
     });
   }
-
+  
   const addProductToCart = (product) => {
     const newCartItems = updateCart(cartItems, product);
     updateCartItemsReducer(newCartItems);
@@ -74,12 +79,17 @@ export const CartProvider = ({ children }) => {
     updateCartItemsReducer(newCartItems);
   }
 
+  const setIsOpen = (value) => dispatch({
+    type: CART_ACTION_TYPES.TOGGLE_OPEN,
+    payload: value,
+  })
+
   const value = {
     isOpen,
     cartItems,
     cartCount,
     cartTotal,
-    setIsOpen: () => {},
+    setIsOpen,
     addProductToCart,
     decrementProductQuantity,
     clearCartItem,
