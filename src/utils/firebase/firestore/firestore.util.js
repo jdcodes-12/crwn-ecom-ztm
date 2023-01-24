@@ -31,13 +31,8 @@ export async function getCollectionAndDocuments(collectionKey) {
  
   try {
     const querySnapshot = await getDocs(queryToRunOnDocs);
-    const categoriesMap = querySnapshot.docs.reduce((accumulator, docSnapshot) => {
-      const { title, items } = docSnapshot.data();
-      accumulator[title.toLowerCase()] = items;
-      return accumulator;
-    }, {});
-    return categoriesMap;
-
+    return querySnapshot.docs.map(document => document.data())
+    
   } catch(error) {
     console.log(error);
   }  
