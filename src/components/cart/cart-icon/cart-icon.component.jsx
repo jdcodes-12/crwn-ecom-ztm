@@ -3,6 +3,7 @@ import { CartContext } from '../../../contexts/cart.context';
 import {
   CartIconContainer,
   ShoppingBagIcon,
+  ItemCount,
 } from './cart-icon.styles';
 
 const CartIcon = () => {
@@ -13,7 +14,7 @@ const CartIcon = () => {
   return (
    <CartIconContainer onClick={toggleCardDropdown}>
     <ShoppingBagIcon />
-    <span className="item-count">{cartCount}</span>
+    <ItemCount>{cartCount}</ItemCount>
    </CartIconContainer>
   );
 }
