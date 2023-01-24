@@ -16,21 +16,21 @@ import {
 
 const Navbar = () => {
   const { currentUser } = useContext(UserContext);
-  const { isOpen, setIsOpen } = useContext(CartContext);
+  const { isOpen } = useContext(CartContext);
   
   return (
     <>
-      <NavbarContainer className="navigation">
-        <LogoContainer className="logo-container" to="/">
-          <Logo className="logo"/>
+      <NavbarContainer>
+        <LogoContainer to="/">
+          <Logo />
         </LogoContainer>
-        <NavLinks className="nav-links-container">
-          <NavLink className="nav-link" to="/shop">SHOP</NavLink>
-          <NavLink className="nav-link" to="/checkout">CHECKOUT</NavLink>
+        <NavLinks >
+          <NavLink to="/shop">SHOP</NavLink>
+          <NavLink to="/checkout">CHECKOUT</NavLink>
           {
             currentUser ?               
-              <NavLink as='span' className="nav-link" onClick={signOutUser}>SIGN OUT</NavLink> :
-              <NavLink className="nav-link" to="/auth">SIGN IN</NavLink>
+              <NavLink as='span' onClick={signOutUser}>SIGN OUT</NavLink> :
+              <NavLink to="/auth">SIGN IN</NavLink>
           }
           <CartIcon />
         </NavLinks>
