@@ -1,4 +1,97 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
+
+export const CartContext = createContext({
+  isOpen: false,
+  cartItems: [],
+  cartCount: 0,
+  cartTotal: 0,
+  setIsOpen: () => {},
+  addProductToCart: () => {},
+  decrementProductQuantity: () => {},
+  clearCartItem: () => {},
+  calculateTotal: () => {}
+});
+
+
+const CART_ACTION_TYPES = {
+  TOGGLE_OPEN: '',
+  SET_CART_ITEMS: 'SET_CART_ITEMS',
+  GET_CART_ITEMS: '',
+  GET_CART_COUNT: '',
+};
+
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+  
+  switch(type) {
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
+      return {
+        ...state,
+        ...payload,
+      }
+    default: 
+      throw new Error(`Unhandled action type ${type} in cartReducer`);
+  }
+};
+
+const CART_INITIAL_STATE = {
+  cartCount: 0,
+  cartTotal: 0,
+  cartItems: [],
+  isOpen: true,
+};
+
+export const CartProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(cartReducer, CART_INITIAL_STATE);
+  const { isOpen, cartItems, cartCount, cartTotal } = state;
+
+  const updateCartItemsReducer = (newCartItems) => {
+    const newCartCount = newCartItems.reduce((total, item) => total + item.quantity, 0);
+    const newCartTotal = newCartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+
+    dispatch({ 
+      type: CART_ACTION_TYPES.SET_CART_ITEMS, 
+      payload: {
+        cartTotal: newCartTotal,
+        cartCount: newCartCount,
+        cartItems: newCartItems,
+      }
+    });
+  }
+
+  const addProductToCart = (product) => {
+    const newCartItems = updateCart(cartItems, product);
+    updateCartItemsReducer(newCartItems);
+  } 
+
+  const decrementProductQuantity = (product) => {
+    const newCartItems = updateCart(cartItems, product, 'decrement');
+    updateCartItemsReducer(newCartItems);
+  }
+
+  const clearCartItem = (product) => {
+    const newCartItems = updateCart(cartItems, product, 'clear');
+    updateCartItemsReducer(newCartItems);
+  }
+
+  const value = {
+    isOpen,
+    cartItems,
+    cartCount,
+    cartTotal,
+    setIsOpen: () => {},
+    addProductToCart,
+    decrementProductQuantity,
+    clearCartItem,
+  };
+
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+    </CartContext.Provider>
+  );
+}
+
 
 export const updateCart = (cartItems, product, action='increment') => {
   const existingItem = cartItems.find(item => item.id === product.id);
@@ -29,60 +122,4 @@ export const updateCart = (cartItems, product, action='increment') => {
   }
 
   return [...cartItems, {...product, quantity: 1}];
-}
-
-export const CartContext = createContext({
-  isOpen: false,
-  cartItems: [],
-  cartCount: 0,
-  cartTotal: 0,
-  setIsOpen: () => {},
-  addProductToCart: () => {},
-  decrementProductQuantity: () => {},
-  clearCartItem: () => {},
-  calculateTotal: () => {}
-});
-
-export const CartProvider = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [cartCount, setCartCount] = useState(0);
-  const [cartTotal, setCartTotal] = useState(0);
-
-  const addProductToCart = (product) => 
-    setCartItems(updateCart(cartItems, product));
-  
-  const decrementProductQuantity = (product) => 
-    setCartItems(updateCart(cartItems, product, 'decrement'));
-
-  const clearCartItem = (product) => 
-    setCartItems(updateCart(cartItems, product, 'clear'));
-
-  
-  useEffect(() => {
-    const updatedCartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-    setCartCount(updatedCartCount);
-  }, [cartItems]);
-
-  useEffect(() => {
-    const updatedCartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
-    setCartTotal(updatedCartTotal);
-  }, [cartItems]);
-
-  const value = {
-    isOpen,
-    cartItems,
-    cartCount,
-    cartTotal,
-    setIsOpen,
-    addProductToCart,
-    decrementProductQuantity,
-    clearCartItem,
-  };
-
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
 }
