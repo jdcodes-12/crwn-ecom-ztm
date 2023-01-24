@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
-import { UserContext } from '../../../contexts/user.context';
+import React, { useState } from 'react';
 import { createAuthUserWithEmailAndPassword } from '../../../utils/firebase/auth/auth.util';
 import { createUserDocFromAuth } from '../../../utils/firebase/firestore/firestore.util';
-import './sign-up-form.styles.scss';
+import { SignUpContainer } from './sign-up-form.styles';
 import FormInput from '../../inputs/form-input/form-input.component';
 import Button from '../../buttons/button.component';
 
@@ -15,8 +14,6 @@ const defaultFormFields = {
 
 // TODO: Fix displayName not populating on SignUpForm
 const SignUpForm = () => {
-
-  const { setCurrentUser } = useContext(UserContext);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmedPassword } = formFields;
@@ -36,7 +33,7 @@ const SignUpForm = () => {
       const { user } = await createAuthUserWithEmailAndPassword(email, password);
       await createUserDocFromAuth(user, { displayName });
       alert('Welcome aboard. Time to shop like royalty.');
-      setCurrentUser(user);
+      // setCurrentUser(user);
       resetFormFields();
       
     } catch(error) {
@@ -55,7 +52,7 @@ const SignUpForm = () => {
   }
 
   return (
-    <section className="sign-up-container">
+    <SignUpContainer as="section">
       <h2>Don't have an account?</h2>
       <span>Sign in with your email & password</span>
       <form onSubmit={handleSubmit}>
@@ -111,7 +108,7 @@ const SignUpForm = () => {
           Sign Up
         </Button>
       </form>
-    </section>
+    </SignUpContainer as="section">
   );
 }
 
