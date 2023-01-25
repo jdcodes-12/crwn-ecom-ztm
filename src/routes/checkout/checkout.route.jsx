@@ -9,7 +9,7 @@ import {
   CheckoutContainer,
   CheckoutHeaders,
   HeaderBlock,
-  Title,
+  Total,
 } from './checkout.styles.jsx';
 
 const CheckoutRoute = () => {
@@ -19,19 +19,19 @@ const CheckoutRoute = () => {
   return (
     <CheckoutContainer>
       <CheckoutHeaders>
-        <HeaderBlock as={h3}>
+        <HeaderBlock as='h3'>
           <span>Product</span>
         </HeaderBlock>
-        <HeaderBlock as={h3}>
+        <HeaderBlock as='h3'>
           <span>Description</span>
         </HeaderBlock>
-        <HeaderBlock as={h3}>
+        <HeaderBlock as='h3'>
           <span>Quantity</span>
         </HeaderBlock>
-        <HeaderBlock as={h3}>
+        <HeaderBlock as='h3'>
           <span>Price</span>
         </HeaderBlock>
-        <HeaderBlock as={h3}>
+        <HeaderBlock as='h3'>
           <span>Remove</span>
         </HeaderBlock>
       </CheckoutHeaders>
@@ -40,7 +40,7 @@ const CheckoutRoute = () => {
           <CheckoutItem key={item.id} cartItem={item}/>
         )
       }
-      <Title>Total: ${cartTotal}</Title>
+      <Total>Total: ${cartTotal}</Total>
     </CheckoutContainer>
   );
 }
