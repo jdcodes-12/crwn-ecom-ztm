@@ -1,42 +1,47 @@
-import React, { useContext } from 'react';
-import { CartContext } from '../../contexts/cart.context';
+import React from 'react';
+
+import { useSelector } from 'react-redux';
+import { selectCartTotal, selectCartItems } from '../../store/cart/cart.selectors';
+
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
-import './checkout.styles.scss';
+
+import {
+  CheckoutContainer,
+  CheckoutHeaders,
+  HeaderBlock,
+  Title,
+} from './checkout.styles.jsx';
 
 const CheckoutRoute = () => {
-  const { 
-    cartItems,
-    cartTotal,
-    addProductToCart,
-    decrementProductQuantity,
-  } = useContext(CartContext);
+  const cartItems = useSelector(selectCartItems);
+  const cartTotal = useSelector(selectCartTotal);  
 
   return (
-    <section className="checkout-container">
-      <div className="checkout-header">
-        <div className="header-block">
+    <CheckoutContainer>
+      <CheckoutHeaders>
+        <HeaderBlock as={h3}>
           <span>Product</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock as={h3}>
           <span>Description</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock as={h3}>
           <span>Quantity</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock as={h3}>
           <span>Price</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock as={h3}>
           <span>Remove</span>
-        </div>
-      </div>
+        </HeaderBlock>
+      </CheckoutHeaders>
       {
         cartItems.map(item => 
           <CheckoutItem key={item.id} cartItem={item}/>
         )
       }
-      <span className="total">Total: ${cartTotal}</span>
-    </section>
+      <Title>Total: ${cartTotal}</Title>
+    </CheckoutContainer>
   );
 }
 
