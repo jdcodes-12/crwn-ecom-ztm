@@ -1,23 +1,18 @@
-const CART_ACTION_TYPES = {
-  TOGGLE_OPEN: 'TOGGLE_OPEN',
-  SET_CART_ITEMS: 'SET_CART_ITEMS',
-};
+import { CART_ACTION_TYPES } from './cart.types';
 
 const CART_INITIAL_STATE = {
-  cartCount: 0,
-  cartTotal: 0,
   cartItems: [],
   isOpen: false,
 };
 
-const cartReducer = (state = CART_INITIAL_STATE, action) => {
+export const cartReducer = (state = CART_INITIAL_STATE, action = {}) => {
   const { type, payload } = action;
   
   switch(type) {
     case CART_ACTION_TYPES.SET_CART_ITEMS:
       return {
         ...state,
-        ...payload,
+        cartItems: payload,
       };
 
     case CART_ACTION_TYPES.TOGGLE_OPEN:
@@ -30,4 +25,3 @@ const cartReducer = (state = CART_INITIAL_STATE, action) => {
       return state;
   }
 };
-

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectCategoriesMap } from '../../../store/categories/categories.selector';
+import { selectCategoriesMap } from '../../../store/categories/categories.selectors';
 import CategoryPreview from '../category-preview/category-preview.component';
 
 const CategoriesPreview = () => {

@@ -9,7 +9,9 @@ import {
 } from 'redux';
 
 // Define the middlewares that hit before dispatching
-const middlewares = [logger];
+const middlewares = [logger]
+
+// Currying to create the ehancer chain
 const composedEnhancers = compose(applyMiddleware(...middlewares));
 
 // Hook up store with middlewares

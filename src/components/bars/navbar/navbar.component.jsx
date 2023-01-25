@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../../store/user/user.selector';
-import { CartContext } from '../../../contexts/cart.context';
+import { selectCurrentUser } from '../../../store/user/user.selectors';
+import { selectCartIsOpen } from '../../../store/cart/cart.selectors';
 
 import { signOutUser } from '../../../utils/firebase/auth/auth.util';
 
@@ -20,7 +20,7 @@ import {
 
 const Navbar = () => {
   const currentUser = useSelector(selectCurrentUser);
-  const { isOpen } = useContext(CartContext);
+  const isOpen = useSelector(selectCartIsOpen);
   
   return (
     <>
