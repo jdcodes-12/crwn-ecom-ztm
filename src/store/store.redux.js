@@ -30,7 +30,6 @@ const reduxSagaMiddleware = createSagaMiddleware();
 // Define the middlewares that hit before dispatching & only apply in development
 const middlewares = [process.env.NODE_ENV !== 'production' && logger, reduxSagaMiddleware].filter(Boolean);
 
-reduxSagaMiddleware.run(rootSaga);
 
 // Swaps between native compose from redux or using redux dev-tools
 const composer = 
@@ -47,3 +46,6 @@ const composedEnhancers = composer(applyMiddleware(...middlewares));
 export const store = createStore(persistedReducer, undefined, composedEnhancers);
 
 export const persistor = persistStore(store);
+
+// Attach the saga
+reduxSagaMiddleware.run(rootSaga);

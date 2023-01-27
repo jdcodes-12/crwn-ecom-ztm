@@ -1,6 +1,5 @@
 import CATEGORIES_ACTION_TYPES from './categories.types';
 import { createAction } from '../../utils/reducer/reducer.utils';
-import { getCollectionAndDocuments } from '../../utils/firebase/firestore/firestore.util';
 
 export const fetchCategoriesStart = () => 
   createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START);
@@ -18,18 +17,3 @@ export const fetchCategoriesFail = (error) =>
     CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAIL, 
     error
   );
-
-
-export const fetchCategoriesStartAsyncThunk = () => {
-    return async (dispatch) => {
-      dispatch(fetchCategoriesStart());
-
-      try {
-        const categoriesArray = await getCollectionAndDocuments('categories');
-        dispatch(fetchCategoriesSuccess(categoriesArray));
-        
-      } catch(error) {
-        dispatch(fetchCategoriesFail(error));
-      }
-    };
-};

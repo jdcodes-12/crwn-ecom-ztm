@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
-import { fetchCategoriesStartAsyncThunk } from '../../store/categories/categories.actions';
+import { fetchCategoriesStart } from '../../store/categories/categories.actions';
 
 import CategoriesPreview from '../../components/category/categories-preview/categories-preview.component';
 import CategoryRoute from '../../routes/category/category.route';
@@ -10,12 +10,9 @@ import CategoryRoute from '../../routes/category/category.route';
 const ShopRoute = () => {
   const dispatch = useDispatch();
 
-  // Dispatch the asynchronous flow of fetching categories. Sets
-  // the state of categoriesReducer's isLoading to `true`. This
-  // will trigger the conditional rendering of Spinner in
-  // CategoriesPreview & CategoryRoute.
+  // categoriesSaga is listening to fetchCategoriesStart()
   useEffect(() => {
-    dispatch(fetchCategoriesStartAsyncThunk());
+    dispatch(fetchCategoriesStart());
   }, []);
 
   return (
