@@ -5,7 +5,7 @@ import { CategoriesMenuContainer } from './categories-menu.styles';
 
 const CategoriesMenu = () => {
  return (
-    <CategoriesMenuContainer as='section' className="categories-container">
+    <CategoriesMenuContainer as='section'>
       {categories.map(category => (
         <DirectoryItem key={category.id} category={category}/>
       ))}
