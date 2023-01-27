@@ -11,10 +11,13 @@ import {
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+// Don't need to whitelist `user` b/c comes from Firebase listeners
+// Don't need to whitelist `categories` - b/c categories should be fetched from firestore & not persisted iun local storage
+// Only track `cart` state to keep orders persistent on refresh or session changes.
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['user'],
+  whitelist: ['cart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
