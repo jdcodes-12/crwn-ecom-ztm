@@ -1,16 +1,18 @@
 import React from 'react';
+
 import ProductCard from '../../cards/product-card/product-card.component';
+
 import {
   CategoryPreviewContainer,
   Title,
   Preview,
 } from './category-preview.styles';
 
-const CategoryPreview = ({ title, products}) => {
+const CategoryPreview = ({ title, products }) => {
   return (
     <CategoryPreviewContainer as='section'>
       <h2>
-        <Title>{title.toUpperCase()}</Title>
+        <Title to={title}>{title.toUpperCase()}</Title>
       </h2>
       <Preview>
         {
