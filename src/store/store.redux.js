@@ -1,7 +1,10 @@
 // TODO: Migrate to Redux ToolKit
 import { rootReducer } from './root-reducer.redux';
 import logger from 'redux-logger';
-import thunk from 'redux-thunk';
+
+import createSagaMiddleware from 'redux-saga';
+import { rootSaga } from './root-saga.saga';
+
 import { 
   compose, 
   legacy_createStore as createStore, 
@@ -22,8 +25,12 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+const reduxSagaMiddleware = createSagaMiddleware();
+
 // Define the middlewares that hit before dispatching & only apply in development
-const middlewares = [process.env.NODE_ENV !== 'production' && logger, thunk].filter(Boolean);
+const middlewares = [process.env.NODE_ENV !== 'production' && logger, reduxSagaMiddleware].filter(Boolean);
+
+reduxSagaMiddleware.run(rootSaga);
 
 // Swaps between native compose from redux or using redux dev-tools
 const composer = 
