@@ -1,6 +1,7 @@
 // TODO: Migrate to Redux ToolKit
 import { rootReducer } from './root-reducer.redux';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 import { 
   compose, 
   legacy_createStore as createStore, 
@@ -19,7 +20,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Define the middlewares that hit before dispatching & only apply in development
-const middlewares = [process.env.NODE_ENV !== 'production' && logger].filter(Boolean);
+const middlewares = [process.env.NODE_ENV !== 'production' && logger, thunk].filter(Boolean);
 
 // Swaps between native compose from redux or using redux dev-tools
 const composer = 

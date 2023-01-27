@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCategories } from '../../store/categories/categories.actions';
-import { getCollectionAndDocuments } from '../../utils/firebase/firestore/firestore.util';
+import { fetchCategoriesThunkAsync } from '../../store/categories/categories.actions';
 
 import { Routes, Route } from 'react-router-dom';
 import CategoriesPreview from '../../components/category/categories-preview/categories-preview.component';
@@ -10,18 +9,11 @@ import CategoryRoute from '../../routes/category/category.route';
 const ShopRoute = () => {
   const dispatch = useDispatch();
 
+  // Dispatch the asynchronous flow of fetching categories by using
+  // the thunk function in categories.action. Handles start, success
+  // and failed states.
   useEffect(() => {
-    const getCategoryMap = async () => {
-     try {
-      const categoriesArray = await getCollectionAndDocuments('categories');
-      console.log(categoriesArray);
-      dispatch(setCategories(categoriesArray));
-     } catch(error) {
-      console.log(error);
-     }
-    }
-    
-    getCategoryMap();
+    dispatch(fetchCategoriesThunkAsync());
   }, []);
 
   return (
