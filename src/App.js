@@ -4,6 +4,8 @@ import { createUserDocFromAuth } from './utils/firebase/firestore/firestore.util
 import { onAuthStateChangedListener } from './utils/firebase/auth/auth.util';
 import { setCurrentUser } from './store/user/user.actions';
 
+import { getCurrentUser } from './utils/firebase/auth/auth.util';
+
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/bars/navbar/navbar.component';
 import HomeRoute from './routes/home/home.route';
@@ -18,14 +20,7 @@ function App() {
   const dispatch = useDispatch(); 
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        createUserDocFromAuth(user);
-      }
-      dispatch(setCurrentUser(user));
-    })
-
-    return unsubscribe;
+    getCurrentUser().then(user => console.log(user));
   }, []);
 
   return (
